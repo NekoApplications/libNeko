@@ -23,7 +23,13 @@ interface PipelineModule<I : Any, O : Any> {
 
 class PipelineBuilder<T : Any, I : Any, O : Any>(private val pipeline: MutableList<PipelineModule<Any, Any>>) {
 
-    fun <O1 : Any> then(mod: PipelineModule<I, O1>): PipelineBuilder<T, I, O1> {
+    fun <O1 : Any> start(mod: PipelineModule<I, O1>): PipelineBuilder<T, I, O1> {
+        if (pipeline.isNotEmpty()) throw IllegalStateException("PipelineBuilder already started.")
+        pipeline.add(mod as PipelineModule<Any, Any>)
+        return PipelineBuilder<T, I, O1>(pipeline)
+    }
+
+    fun <O1 : Any> then(mod: PipelineModule<O, O1>): PipelineBuilder<T, I, O1> {
         pipeline.add(mod as PipelineModule<Any, Any>)
         return PipelineBuilder<T, I, O1>(pipeline)
     }

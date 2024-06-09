@@ -1,6 +1,6 @@
 package icu.takeneko.libNeko.registry
 
-class Registry<E>(val id: Identifier) {
+class Registry<E>(private val id: Identifier) {
     private val map = mutableMapOf<Identifier, E>()
     private val keyMap = mutableMapOf<E, Identifier>()
     var frozen = false

@@ -1,14 +1,13 @@
-package icu.takeneko.libNeko.nyatwork;
+package icu.takeneko.libNeko.nyatwork
 
-import java.util.Optional;
-import java.util.function.BiConsumer;
+import java.util.*
+import java.util.function.BiConsumer
 
-@FunctionalInterface
-public interface Writer<T> extends BiConsumer<FriendlyByteBuf, T> {
-    default Writer<Optional<T>> asOptional() {
-        return (buf, optional) -> {
-            buf.writeOptional(optional, this);
-        };
+fun interface Writer<T: Any> : BiConsumer<FriendlyByteBuf, T> {
+    fun asOptional(): Writer<Optional<T>> {
+        return Writer { buf: FriendlyByteBuf, optional: Optional<T> ->
+            buf.writeOptional(optional, this)
+        }
     }
 }
 

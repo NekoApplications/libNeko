@@ -15,7 +15,7 @@ interface PacketEncoder<I : Packet> {
     fun encode(i: I, buf: FriendlyByteBuf)
 }
 
-class PacketHandlerModule() : PipelineModule<Packet, Unit> {
+class PacketHandler() : PipelineModule<Packet, Unit> {
     override fun accept(i: Packet) {
         i.handle()
     }
@@ -25,8 +25,9 @@ class PacketHandlerModule() : PipelineModule<Packet, Unit> {
 object RegistryPacketDecoder : PipelineModule<FriendlyByteBuf, Packet> {
     fun decode(i: FriendlyByteBuf): Packet? {
         val id = i.readIdentifier()
+        val clazz = BuiltinRegistries.packetTypes.get(id) ?: return null
         val decoder = BuiltinRegistries.packetDecoder.get(id) ?: return null
-        return decoder.decode(i)
+        return clazz.cast(decoder.decode(i))
     }
 
     override fun accept(i: FriendlyByteBuf): Packet? {

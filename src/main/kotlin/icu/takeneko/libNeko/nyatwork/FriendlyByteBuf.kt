@@ -148,11 +148,11 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
         }
     }
 
-    private fun readerIndex(int: Int) {
+    fun readerIndex(int: Int) {
         parent.position(int)
     }
 
-    private fun readerIndex(): Int {
+    fun readerIndex(): Int {
         return parent.position()
     }
 
@@ -284,7 +284,7 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
         }
     }
 
-    fun <T, C : MutableCollection<T>> readCollection(
+    fun <T: Any, C : MutableCollection<T>> readCollection(
         collectionFactory: IntFunction<C>,
         elementReader: Reader<T>
     ): C {
@@ -298,7 +298,7 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
         return collection
     }
 
-    fun <T> writeCollection(collection: Collection<T>, elementWriter: Writer<T>) {
+    fun <T: Any> writeCollection(collection: Collection<T>, elementWriter: Writer<T>) {
         this.writeVarInt(collection.size)
         for (t in collection) {
             elementWriter.accept(this, t)
@@ -331,7 +331,7 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
     }
 
 
-    fun <T> writeOptional(optional: Optional<T>, writer: Writer<T>) {
+    fun <T: Any> writeOptional(optional: Optional<T>, writer: Writer<T>) {
         if (optional.isPresent) {
             this.writeBoolean(true)
             writer.accept(this, optional.get())

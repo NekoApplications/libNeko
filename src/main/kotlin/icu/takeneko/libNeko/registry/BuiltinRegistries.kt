@@ -10,7 +10,9 @@ object BuiltinRegistries {
     val packetEncoder = Registry<PacketEncoder<Packet>>(Identifier("nyatwork","packet/encoder"))
     val packetTypes = Registry<Class<out Packet>>(Identifier("nyatwork", "packet/class"))
 
-    fun finish(){
-
+    fun finish() {
+        packetTypes.freeze()
+        packetDecoder.freeze()
+        packetEncoder.freeze()
     }
 }
