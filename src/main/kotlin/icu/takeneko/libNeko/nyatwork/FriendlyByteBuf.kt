@@ -156,6 +156,9 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
         return parent.position()
     }
 
+    fun writerIndex(): Int {
+        return parent.position()
+    }
 
     fun writeUtf(string: String): FriendlyByteBuf {
         return this.writeUtf(string, 32767)

@@ -15,7 +15,7 @@ interface PacketEncoder<I : Packet> {
     fun encode(i: I, buf: FriendlyByteBuf)
 }
 
-class PacketHandler() : PipelineModule<Packet, Unit> {
+object PacketHandler : PipelineModule<Packet, Unit> {
     override fun accept(i: Packet) {
         i.handle()
     }
