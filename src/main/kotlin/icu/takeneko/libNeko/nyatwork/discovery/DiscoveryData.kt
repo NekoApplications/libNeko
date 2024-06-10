@@ -1,6 +1,6 @@
 package icu.takeneko.libNeko.nyatwork.discovery
 
-import icu.takeneko.libNeko.nyatwork.FriendlyByteBuf
+import icu.takeneko.libNeko.nyatwork.util.FriendlyByteBuf
 import icu.takeneko.libNeko.registry.Identifier
 
 data class DiscoveryData(

@@ -1,4 +1,4 @@
-package icu.takeneko.libNeko.nyatwork
+package icu.takeneko.libNeko.nyatwork.util
 
 import java.util.*
 import java.util.function.BiConsumer

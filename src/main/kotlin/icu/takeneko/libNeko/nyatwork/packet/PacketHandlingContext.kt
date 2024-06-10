@@ -1,5 +1,7 @@
-package icu.takeneko.libNeko.nyatwork
+package icu.takeneko.libNeko.nyatwork.packet
 
+import icu.takeneko.libNeko.nyatwork.Pipeline
+import icu.takeneko.libNeko.nyatwork.util.FriendlyByteBuf
 import io.ktor.utils.io.*
 
 data class PacketHandlingContext(

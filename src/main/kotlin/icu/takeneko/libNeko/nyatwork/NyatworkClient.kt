@@ -3,6 +3,10 @@ package icu.takeneko.libNeko.nyatwork
 import icu.takeneko.libNeko.nyatwork.discovery.DiscoveryData
 import icu.takeneko.libNeko.nyatwork.discovery.DiscoveryPacketReceiver
 import icu.takeneko.libNeko.nyatwork.discovery.DiscoveryResult
+import icu.takeneko.libNeko.nyatwork.packet.Packet
+import icu.takeneko.libNeko.nyatwork.packet.PacketHandlingContext
+import icu.takeneko.libNeko.nyatwork.packet.PacketSendingContext
+import icu.takeneko.libNeko.nyatwork.util.FriendlyByteBuf
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
@@ -12,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 import java.net.Socket
 
 abstract class NyatworkClient<T: NyatworkClient<T>>(
-        inPipelineConfigurator: PipelineBuilder<PacketHandlingContext, PacketHandlingContext, Unit>.(T) -> Unit,
+    inPipelineConfigurator: PipelineBuilder<PacketHandlingContext, PacketHandlingContext, Unit>.(T) -> Unit,
     val outPipelineConfigurator: PipelineBuilder<PacketSendingContext, PacketSendingContext, Unit>.(T) -> PipelineBuilder<PacketSendingContext, PacketSendingContext, FriendlyByteBuf>
 ) : NyatworkService<DiscoveryPacketReceiver, T>(inPipelineConfigurator, {
     outPipelineConfigurator(this, it)

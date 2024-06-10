@@ -1,5 +1,7 @@
 package icu.takeneko.libNeko.nyatwork
 
+import icu.takeneko.libNeko.nyatwork.packet.PacketHandlingContext
+import icu.takeneko.libNeko.nyatwork.packet.PacketSendingContext
 import kotlin.properties.Delegates
 
 abstract class NyatworkService<T, S : NyatworkService<T, S>>(

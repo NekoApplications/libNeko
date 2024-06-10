@@ -1,8 +1,8 @@
 package icu.takeneko.libNeko.registry
 
-import icu.takeneko.libNeko.nyatwork.Packet
-import icu.takeneko.libNeko.nyatwork.PacketDecoder
-import icu.takeneko.libNeko.nyatwork.PacketEncoder
+import icu.takeneko.libNeko.nyatwork.packet.Packet
+import icu.takeneko.libNeko.nyatwork.packet.PacketDecoder
+import icu.takeneko.libNeko.nyatwork.packet.PacketEncoder
 
 object BuiltinRegistries {
 

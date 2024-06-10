@@ -1,10 +1,12 @@
-package icu.takeneko.libNeko.nyatwork
+package icu.takeneko.libNeko.nyatwork.packet
 
+import icu.takeneko.libNeko.nyatwork.PipelineModule
+import icu.takeneko.libNeko.nyatwork.util.FriendlyByteBuf
 import icu.takeneko.libNeko.registry.BuiltinRegistries
 
 interface Packet {
 
-    fun handle()
+    fun handle(ctx: PacketHandlingContext)
 }
 
 interface PacketDecoder<O : Packet> {
@@ -15,14 +17,14 @@ interface PacketEncoder<I : Packet> {
     fun encode(i: I, buf: FriendlyByteBuf)
 }
 
-object PacketHandler : PipelineModule<Packet, Unit> {
-    override fun accept(i: Packet) {
-        i.handle()
+object PacketHandler : PipelineModule<Pair<PacketHandlingContext, Packet>, Unit> {
+    override fun accept(p: Pair<PacketHandlingContext, Packet>) {
+        p.second.handle(p.first)
     }
 }
 
 
-object RegistryPacketDecoder : PipelineModule<FriendlyByteBuf, Packet> {
+object RegistryPacketDecoder : PipelineModule<PacketHandlingContext, Pair<PacketHandlingContext, Packet>> {
     fun decode(i: FriendlyByteBuf): Packet? {
         val id = i.readIdentifier()
         val clazz = BuiltinRegistries.packetTypes.get(id) ?: return null
@@ -30,12 +32,12 @@ object RegistryPacketDecoder : PipelineModule<FriendlyByteBuf, Packet> {
         return clazz.cast(decoder.decode(i))
     }
 
-    override fun accept(i: FriendlyByteBuf): Packet? {
-        return decode(i)
+    override fun accept(i: PacketHandlingContext): Pair<PacketHandlingContext, Packet>? {
+        return i to (decode(i.buf) ?: return null)
     }
 }
 
-object RegistryPacketEncoder : PipelineModule<Packet, FriendlyByteBuf> {
+object RegistryPacketEncoder : PipelineModule<PacketSendingContext, FriendlyByteBuf> {
 
     fun encode(i: Packet): FriendlyByteBuf? {
         val buf = FriendlyByteBuf.createEmpty()
@@ -46,7 +48,9 @@ object RegistryPacketEncoder : PipelineModule<Packet, FriendlyByteBuf> {
         return buf
     }
 
-    override fun accept(i: Packet): FriendlyByteBuf? {
-        return encode(i)
+    override fun accept(i: PacketSendingContext): FriendlyByteBuf? {
+        return encode(i.packetContext)
     }
 }
+
+

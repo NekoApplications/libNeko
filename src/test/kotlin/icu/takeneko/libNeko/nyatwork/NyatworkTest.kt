@@ -1,5 +1,6 @@
 package icu.takeneko.libNeko.nyatwork
 
+import icu.takeneko.libNeko.nyatwork.util.FriendlyByteBuf
 import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.test.expect

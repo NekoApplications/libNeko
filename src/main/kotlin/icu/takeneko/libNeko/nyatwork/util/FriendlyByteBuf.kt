@@ -1,4 +1,4 @@
-package icu.takeneko.libNeko.nyatwork
+package icu.takeneko.libNeko.nyatwork.util
 
 import icu.takeneko.libNeko.registry.Identifier
 import java.nio.ByteBuffer
@@ -351,7 +351,12 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
     }
 
     fun dump(): ByteArray {
-        TODO("Not yet implemented")
+        val idx = writerIndex()
+        val array = ByteArray(idx)
+        for (i in 0 until idx){
+            array[i] = get(i)
+        }
+        return array
     }
 
     companion object {
@@ -360,7 +365,7 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
             return FriendlyByteBuf(par)
         }
 
-        fun wrap(buf: ByteBuffer):FriendlyByteBuf{
+        fun wrap(buf: ByteBuffer): FriendlyByteBuf {
             return FriendlyByteBuf(buf)
         }
 
