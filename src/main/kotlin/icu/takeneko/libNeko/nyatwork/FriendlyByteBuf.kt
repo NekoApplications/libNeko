@@ -350,10 +350,18 @@ class FriendlyByteBuf(private val parent: ByteBuffer) {
             Optional.empty<T>()
     }
 
+    fun dump(): ByteArray {
+        TODO("Not yet implemented")
+    }
+
     companion object {
         fun wrap(array: ByteArray): FriendlyByteBuf {
             val par = ByteBuffer.wrap(array)
             return FriendlyByteBuf(par)
+        }
+
+        fun wrap(buf: ByteBuffer):FriendlyByteBuf{
+            return FriendlyByteBuf(buf)
         }
 
         fun createEmpty(size:Int = 32768): FriendlyByteBuf {
