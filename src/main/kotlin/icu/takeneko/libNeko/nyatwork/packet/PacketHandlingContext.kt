@@ -10,4 +10,7 @@ data class PacketHandlingContext(
     val inPipeline: Pipeline<PacketHandlingContext, Unit>,
     val outPipeline: Pipeline<PacketSendingContext, Unit>
 ) {
+    fun responsePacket(packet: Packet) {
+        outPipeline.accept(PacketSendingContext(packet, sendChannel, inPipeline, outPipeline))
+    }
 }

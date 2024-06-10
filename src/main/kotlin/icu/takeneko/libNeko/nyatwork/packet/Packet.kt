@@ -4,9 +4,9 @@ import icu.takeneko.libNeko.nyatwork.PipelineModule
 import icu.takeneko.libNeko.nyatwork.util.FriendlyByteBuf
 import icu.takeneko.libNeko.registry.BuiltinRegistries
 
-interface Packet {
+abstract class Packet {
 
-    fun handle(ctx: PacketHandlingContext)
+    abstract fun handle(ctx: PacketHandlingContext)
 }
 
 interface PacketDecoder<O : Packet> {

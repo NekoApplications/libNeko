@@ -11,6 +11,7 @@ internal object DedicatedServerPacketSender : PipelineModule<Pair<PacketSendingC
             val (ctx, buf) = i
             val arr = buf.dump()
             ctx.sendChannel.writeFully(arr, 0, arr.size)
+            ctx.sendChannel.writeByte('\n'.code.toByte())
         }
     }
 }
