@@ -13,6 +13,7 @@ import icu.takeneko.libNeko.registry.BuiltinRegistries
 import icu.takeneko.libNeko.registry.Identifier
 import org.junit.jupiter.api.Test
 import java.util.UUID
+import java.util.concurrent.locks.LockSupport
 
 class ServiceTest {
 
@@ -105,7 +106,9 @@ class ServiceTest {
         client.configureAddress("localhost", 10000)
 
         server.start()
-        Thread.sleep(1000)
+        while (!server.ready){
+            LockSupport.parkNanos(1000)
+        }
         client.start()
         client.sendPacket(TestPacket(UUID.randomUUID(), "Hello!!"))
 

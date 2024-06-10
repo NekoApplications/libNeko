@@ -21,11 +21,13 @@ abstract class NyatworkServer<T: NyatworkServer<T>>(
 ) : NyatworkService<DiscoveryPacketSender, T>(inPipelineConfigurator, outPipelineConfigurator, "NyatworkServer") {
 
     lateinit var discovery: DiscoveryPacketSender
+    var ready = false
 
     override fun serviceThread() {
         runBlocking {
             val selectorManager = SelectorManager(Dispatchers.IO)
             val serverSocket = aSocket(selectorManager).tcp().bind(targetAddress, targetPort)
+            ready = true
             while (true) {
                 val socket = serverSocket.accept()
                 launch {
